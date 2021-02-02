@@ -4,6 +4,7 @@
 #26 January 2021
 ##################################################
 
+#--install once
 install.packages("ggplot2")
 install.packages("tidyverse")
 install.packages("dbscan")
@@ -11,6 +12,7 @@ install.packages("sp")
 install.packages("dplyr")
 install.packages("rgdal")
 install.packages("geosphere")
+
 
 #load packages
 library(ggplot2)
@@ -22,7 +24,9 @@ library(rgdal)
 library(lubridate)
 library(geosphere)
 
+#use integer, not scientific formatting
 options(scipen=999)
+
 
 ######################################
 #read vehicle feeds into dataframe
