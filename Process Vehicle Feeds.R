@@ -27,7 +27,8 @@ options(scipen=999)
 ######################################
 #read vehicle feeds into dataframe
 ######################################
-df<-read.csv("C:\\Users\\User\\Desktop\\safetravelph-vehiclefeeds\\mohaimengani26.csv", header=TRUE)
+df<-read.csv("C:\\Users\\User\\Desktop\\safetravelph-vehiclefeeds\\khivs.csv", header=TRUE)
+#df<-read.csv("C:\\Users\\User\\Desktop\\safetravelph-vehiclefeeds\\mohaimengani26.csv", header=TRUE)
 head(df)
 
 #remove rows with null coordinates
@@ -142,15 +143,19 @@ df7 <- df6 %>%
   group_by(Userid) %>% 
   mutate(Timediff=difftime(strptime(Datetime, "%Y-%m-%d %H:%M:%S"), strptime(lag(Datetime), "%Y-%m-%d %H:%M:%S")), Timediff=as.numeric(Timediff, units = 'secs'))
 
-
 #compute segment speed in kph
 df8 <- df7 %>%
   add_column(Speed = 0) %>% 
   mutate(Speed = Distance/Timediff * 3.6)
-df8$Speed <- as.numeric(format(df8$Speed, decimal.mark = ".", digits = 2))
-#replace NaN with 0
-df8$Speed[is.nan(df8$Speed)] <- 0
 
+df8$Speed <- as.numeric(format(df8$Speed, decimal.mark = ".", digits = 2))
+
+#replace NaN with 0
+df8$Speed[is.na(df8$Speed)] <- 0
+df8$Timediff[is.na(df8$Timediff)] <- 0
+
+#replace Inf with 0
+df8$Speed[is.infinite(df8$Speed)] <- 0
 
 
 #plot the occupancy
@@ -184,7 +189,7 @@ Stats_Speed <- df8 %>%
   group_by(Hour) %>%
   summarize(
     n = n(),
-    Ave_Speed = mean(Speed, na.rm=T)
+    Ave_Speed = mean(Speed)
   )
 
 #--distance traveled per hour in km
