@@ -150,7 +150,7 @@ df8 <- df7 %>%
 
 df8$Speed <- as.numeric(format(df8$Speed, decimal.mark = ".", digits = 2))
 
-#replace NaN with 0
+#replace NA with 0
 df8$Speed[is.na(df8$Speed)] <- 0
 df8$Timediff[is.na(df8$Timediff)] <- 0
 
@@ -160,9 +160,10 @@ df8$Speed[is.infinite(df8$Speed)] <- 0
 
 #plot the occupancy
 #--cleaned data * needs to be improved
-plot(df5$Cumpass~as.POSIXct(df5$Time, format="%H:%M:%S"), type="l",col="blue", xlab="Time", ylab="CumPass")
-#--raw data
-plot(df$Numpass~as.POSIXct(df$Time, format="%H:%M:%S"), type="l",col="blue", xlab="Time", ylab="NumPass")
+plot(df5$Cumpass~as.POSIXct(df5$Time, format="%H:%M:%S"), type="l",col="blue", xlab="Time", ylab="Passengers")
+#--raw data --> alternative
+plot(df$Numpass~as.POSIXct(df$Time, format="%H:%M:%S"), type="l",col="blue", xlab="Time", ylab="Passengers")
+
 
 ######################################
 #compute metrics
